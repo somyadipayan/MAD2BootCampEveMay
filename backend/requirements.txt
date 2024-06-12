@@ -1,1 +1,5 @@
 flask
+flask_marshmallow
+flask_bcrypt
+sqlalchemy
+flask_sqlalchemy
