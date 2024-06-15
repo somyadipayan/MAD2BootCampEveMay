@@ -1,12 +1,14 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from config import Config
 from models import *
 from datetime import datetime
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required, unset_jwt_cookies
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
+jwt = JWTManager(app)
 db.init_app(app)
 ma.init_app(app)
 bcrypt.init_app(app)
@@ -48,6 +50,36 @@ def register():
         db.session.rollback()
         return {"error": "Failed to create user"}, 500
 
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.json
+    email = data["email"]
+    password = data["password"]
+
+    if not email or not password:
+        return {"error": "All fields are required"}, 400
+    
+    user = User.query.filter_by(email=email).first()
+    
+    if not user or not bcrypt.check_password_hash(user.password, password):
+        return {"error": "Invalid email or password"}, 401
+    
+    user.last_loggedin = datetime.now()
+    db.session.commit()
+
+    access_token = create_access_token(identity={
+        "email": user.email,
+        "role": user.role
+    })
+
+    return jsonify({"access_token": access_token, "message": "Login successful"}), 200
+
+@app.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    print(current_user)
+    return "You are the lucky one!, " + current_user["email"] + "!", 200
 
 if __name__ == "__main__":
     app.run(debug=True)

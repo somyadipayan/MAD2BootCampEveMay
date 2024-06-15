@@ -59,7 +59,7 @@ export default {
             if(response.ok){
                 console.log(data.message);
                 alert(data.message)
-                this.$router.push('/')
+                this.$router.push('/login')
             } else {
                 console.log(data.error);
                 alert(data.error)
