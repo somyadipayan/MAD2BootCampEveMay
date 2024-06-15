@@ -81,5 +81,20 @@ def protected():
     print(current_user)
     return "You are the lucky one!, " + current_user["email"] + "!", 200
 
+@app.route('/getuserinfo', methods=['GET'])
+@jwt_required()
+def getuserinfo():
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(email=current_user["email"]).first()
+    user_data = user_schema.dump(user)
+    return jsonify(user_data), 200
+    
+@app.route('/logout', methods=['POST'])
+@jwt_required()
+def logout():
+    response = jsonify({'message': 'logout successful'})
+    unset_jwt_cookies(response)
+    return response
+
 if __name__ == "__main__":
     app.run(debug=True)

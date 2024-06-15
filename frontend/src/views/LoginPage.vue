@@ -1,5 +1,5 @@
 <template>
-
+<NavBar/>
 <div class="container">
 <h2>Login Here</h2>
 <form @submit.prevent="login">
@@ -18,7 +18,12 @@
 </template>
 
 <script>
+import NavBar from '@/components/NavBar.vue'
+
 export default{
+    components: {
+        NavBar
+    },
     data() {
         return {
             email: '',
@@ -39,9 +44,7 @@ export default{
                 })
             })
             const data = await response.json();
-            console.log(data)
             if(response.ok){
-                console.log(data.message);
                 localStorage.setItem("access_token", data.access_token);
                 alert(data.message)
                 this.$router.push('/')

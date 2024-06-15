@@ -1,24 +1,21 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <router-link class="navbar-brand" to="/">Grocery Store</router-link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+      <ul v-if="isloggedin" class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <router-link class="nav-link" to="/">Home</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" @click="logout">Logout</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item dropdown">
+        <li v-if="this.role==='admin'" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown link
+            Admin Actions
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Action</a></li>
@@ -26,6 +23,15 @@
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
+        </ul>
+        <ul v-else class="navbar-nav">
+        <li class="nav-item">
+            <router-link class="nav-link" to="/login">Login</router-link>
+        </li>
+        <li class="nav-item">
+            <router-link class="nav-link"to="/register">Register</router-link>
+        </li>
+
       </ul>
     </div>
   </div>
@@ -33,6 +39,10 @@
 </template>
 
 <script>
+import UserMixin from '../mixins/userMixin';
+export default {
+    mixins: [UserMixin]
+}
 </script>
 
 <style scoped>
