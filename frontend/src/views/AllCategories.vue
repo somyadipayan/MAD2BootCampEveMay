@@ -63,7 +63,7 @@ export default {
 
                 const data = await response.json();
                 if(response.ok){
-                    this.categories = data;
+                    this.categories = data.categories;
                 } else {
                     alert("Something went wrong");
                 }
