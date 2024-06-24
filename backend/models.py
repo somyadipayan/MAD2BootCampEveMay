@@ -122,3 +122,8 @@ class OrderItems(db.Model):
     product_id = Column(Integer, ForeignKey("product.id"), nullable=False)
     product = relationship("Product", back_populates="order")
     quantity = Column(Integer, nullable=False)
+
+class Image(db.Model):
+    __tablename__ = "image"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    filename = Column(Text, nullable=False)

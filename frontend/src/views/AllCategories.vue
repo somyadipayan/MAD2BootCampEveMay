@@ -94,6 +94,28 @@ export default {
         },
         viewCategory(id) {
             console.log('Viewing category: ', id);
+        },
+        async verifyCategory(id) {
+            try {
+                const response = fetch(`http://localhost:5000/verify-category/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    console.log(data.message);
+                    alert(data.message);
+                    this.getAllCategories();
+                } else {
+                    console.log(data.error);
+                    alert(data.error);
+                }
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 }

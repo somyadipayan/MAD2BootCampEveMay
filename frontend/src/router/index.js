@@ -5,6 +5,8 @@ import LoginPage from '../views/LoginPage.vue'
 import AddCategory from '../views/AddCategory.vue'
 import UpdateCategory from '../views/UpdateCategory.vue'
 import AllCategories from '../views/AllCategories.vue'
+import ImageTest from '@/views/ImageTest.vue'
+import ImageGallery from '@/views/ImageGallery.vue'
 
 const routes = [
   {
@@ -18,14 +20,34 @@ const routes = [
     component: RegisterPage
   },
   {
+    path: '/imggallery',
+    name: 'imggallery',
+    component: ImageGallery
+  },
+  {
+    path: '/view-cart',
+    name: 'view-cart',
+    component: () => import('../views/ViewCart.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: LoginPage
   },
   {
+    path:'/admin-report'
+    ,name: 'admin-report'
+    ,component: () => import('../views/AdminReport.vue')
+  },
+  {
     path:'/add-category',
     name: 'add-category',
     component: AddCategory
+  },
+  {
+    path: '/imgtest',
+    name: 'imgtest',
+    component: ImageTest
   },
   {
     path: '/all-categories',
